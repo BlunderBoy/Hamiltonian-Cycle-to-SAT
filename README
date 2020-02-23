@@ -1,0 +1,47 @@
+//Macarie Razvan Cristian, 322CB
+HCP <= SAT
+Pentru a rezolva tema, am descoperit din fisierele ref date cam cum ar trebui  sa fie implementata
+rezolvarea. Am impartit rezolvarea pe mai multi pasi:
+Pasul 0: Se verifica daca daca vreun nod are gradul 1, adica nu se poate forma ciclu cu el. (vezi testul 2)
+Pasul 1: Se verifica ce drum se alege la plecarea din nodul 1. Se alege doar unul.
+Pasul 2: Se verifica ca fiecare nod sa aiba exact 2 drumuri care trec prin el.
+Pasul 3: Se verifica daca graful este neorientat.
+Pasul 4: (x ^ ~y) ^ (~x ^ y) adica ambele sunt 1 sau ambele sunt 0, adica se trece printr-un singur
+sens intr-un nod si ca nodul ales are o lungime care este posibila.
+Pasul 5: Se trateaza cazurile imposibile, cum ar fi a1-1 sau lungimi care sunt imposibile cum ar fi a1-nod
+care nu se leaga de a.
+Pasul 6: Se verifica exact drumurile si posibilitatea lor. La fiecare lungime posibila si nod de plecare posibil
+se verifica daca se poate sa continuam drumul. 
+
+Demo:
+
+HCP <=P SAT
+
+Transformam o instanta a problemei HCP in problema SAT. Printr-o transformare polinomiala P care transforma o instanta a 
+lui HCP intr-o instanta a lui SAT.
+Pentru asta definim urmatoarele variabile:
+xi−j = 1, daca muchia (i, j) apartine drumului ales
+	   0, altfel
+ai−j = 1, daca cea mai scurta cale de la 1 la j, in drumul ales, are lungimea i 
+       0, altfel 
+Astfel transformam un graf intr-o expresie care urmeaza sa fie evaluata.
+Se ia in calcul worst case.
+Pasul 1: se creeaza n^2 literali unde n este numarul de muchii care incep din 1
+Pasul 2: se creeaza n^2 literali unde n este numarul de noduri, pentru ca toate nodurile sunt legate intre ele.
+Pasul 3: se creeaza 2*n^2 literali unde n estu numarul de muchii
+Pasul 4: se creeaza n^2 literali unde n este numarul de noduri
+Pasul 5: se creeaza n literali unde n este numarul total de muchii, pentru a trata cazurile imposibile
+Pasul 6: se creeaza n^2*(n/2 + 1) unde n este numarul de noduri pentru a trata combinatiile posibile de drumuri alese
+Toati pasii fac transformari polinomiale deci transformarea este polinimiala.
+
+"=>"
+Plec de la graf si il transform prin algoritmul prezentat intr-o instanta de a lui SAT. 
+"<="
+Plec de la o instanta a lui SAT, cand expresia este evaluata ca fiind adevarata ne uitam la variabilele din expresie
+si descoperim ciclul hamiltonian in functie de valorile de adevar al variabilelor xi-j si ai-j
+
+Implementare:
+Am implementat tema in Java pentru ca este mult mai usor decat in C.
+Am definit initial niste functii ajutatoare cum ar fi muchiiCarePornescDinX, muchiiCareNuPornescDinX, add
+pentru a-mi usura implementarea. Muchiile sunt citite intr-un ArrayList. Printarile sunt facute destul de barbar cu
+expresii de genul ("x"+i+"-"...) etc insa nu sunt hardcodate si functioneaza pentru orice graf de orice marime.
